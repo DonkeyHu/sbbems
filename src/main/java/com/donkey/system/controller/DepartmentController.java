@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.donkey.common.config.Constant;
+import com.donkey.common.model.TreeDO;
 import com.donkey.common.utils.BaseResponse;
 import com.donkey.system.model.DepartmentDO;
 import com.donkey.system.service.IDepartmentService;
@@ -85,13 +86,16 @@ public class DepartmentController {
 	 * @return
 	 */
 	@PostMapping("/save")
+	@ResponseBody
 	public BaseResponse save(DepartmentDO sysDept) {
 		if(departmentService.save(sysDept)>0) {
 			return BaseResponse.ok();
 		}
 		return BaseResponse.error();
 	}
+	
 	@PostMapping("/update")
+	@ResponseBody
 	public BaseResponse update(DepartmentDO sysDept) {
 		if(departmentService.update(sysDept)>0) {
 			return BaseResponse.ok();
@@ -100,6 +104,7 @@ public class DepartmentController {
 	}
 	
 	@PostMapping("/delete/{deptId}")
+	@ResponseBody
 	public BaseResponse remove(@PathVariable("deptId") Long deptId) {
 		if(departmentService.count(deptId)>0) {
 			return BaseResponse.error(1,"包含子部门，不允许删除");
@@ -108,6 +113,12 @@ public class DepartmentController {
 			return BaseResponse.ok();
 		}
 		return BaseResponse.error(); 
+	}
+	
+	@GetMapping("/tree")
+	@ResponseBody
+	public TreeDO<DepartmentDO> tree(){
+		return departmentService.getTree();
 	}
 	
 }

@@ -2,6 +2,7 @@ package com.donkey.system.service;
 
 import java.util.List;
 
+import com.donkey.common.model.TreeDO;
 import com.donkey.system.model.DepartmentDO;
 
 /**
@@ -23,4 +24,6 @@ public interface IDepartmentService {
 	int count(Long deptId);
 	
 	int remove(Long deptId);
+	
+	TreeDO<DepartmentDO> getTree();
 }

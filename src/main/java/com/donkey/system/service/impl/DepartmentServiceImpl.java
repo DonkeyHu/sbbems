@@ -1,5 +1,6 @@
 package com.donkey.system.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +8,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.donkey.common.model.TreeDO;
+import com.donkey.common.utils.BuildTree;
 import com.donkey.system.dao.IDepartmentDao;
 import com.donkey.system.model.DepartmentDO;
 import com.donkey.system.service.IDepartmentService;
@@ -52,6 +55,26 @@ public class DepartmentServiceImpl implements IDepartmentService{
 	@Override
 	public int remove(Long deptId) {
 		return departmentDao.remove(deptId);
+	}
+
+	@Override
+	public TreeDO<DepartmentDO> getTree() {
+		List<DepartmentDO> lists = departmentDao.listAll(new HashMap<String,Object>(16));
+		List<TreeDO<DepartmentDO>> nodes = new ArrayList<>();
+		
+		for (DepartmentDO departmentDO : lists) {
+			TreeDO<DepartmentDO> tree = new TreeDO<>();
+			tree.setId(departmentDO.getDeptId().toString());
+			tree.setText(departmentDO.getName());
+			tree.setParentId(departmentDO.getParentId().toString());
+			Map<String,Object> map = new HashMap<>(16);
+			map.put("open", true);
+			tree.setState(map);
+			nodes.add(tree);
+		}
+		
+		TreeDO<DepartmentDO> build = BuildTree.build(nodes);
+		return build;
 	}
 	
 }
