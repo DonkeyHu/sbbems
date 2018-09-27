@@ -1,6 +1,7 @@
 package com.donkey.common.utils;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class BaseResponse extends HashMap<String, Object>{
 	
@@ -16,8 +17,18 @@ public class BaseResponse extends HashMap<String, Object>{
 		return br;
 	}
 	
+	public static BaseResponse ok(Map<String,Object> map) {
+		BaseResponse br = new BaseResponse();
+		br.putAll(map);
+		return br;
+	}
+	
 	public static BaseResponse error() {
 		return error(1,"操作失败");
+	}
+	
+	public static BaseResponse error(String msg) {
+		return error(500,msg);
 	}
 	
 	public static BaseResponse error(int code,String msg) {

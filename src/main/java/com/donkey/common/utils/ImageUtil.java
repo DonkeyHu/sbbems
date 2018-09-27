@@ -39,8 +39,8 @@ public class ImageUtil {
 		try {
 			ImageReader reader = iterator.next();
 			// 转换成输入流
-			InputStream in = file.getInputStream();
-			ImageInputStream iis = ImageIO.createImageInputStream(in);
+			InputStream is = file.getInputStream();
+			ImageInputStream iis = ImageIO.createImageInputStream(is);
 			reader.setInput(iis, true);
 			ImageReadParam param = reader.getDefaultReadParam();
 			Rectangle rect = new Rectangle(x, y, w, h);
