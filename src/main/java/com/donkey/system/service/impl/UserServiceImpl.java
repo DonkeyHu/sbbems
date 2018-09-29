@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
@@ -19,6 +20,7 @@ import com.donkey.common.model.FileType;
 import com.donkey.common.service.IFileService;
 import com.donkey.common.utils.FileUtil;
 import com.donkey.common.utils.ImageUtil;
+import com.donkey.common.utils.Query;
 import com.donkey.system.dao.IUserDao;
 import com.donkey.system.model.UserDO;
 import com.donkey.system.service.IUserService;
@@ -70,5 +72,16 @@ public class UserServiceImpl implements IUserService{
 		}
 		return result;
 	}
+
+	@Override
+	public List<UserDO> list(Query query) {
+		return userDao.list(query);
+	}
+
+	@Override
+	public int count(Query query) {
+		return userDao.count(query);
+	}
+	
 	
 }

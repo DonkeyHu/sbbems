@@ -2,28 +2,89 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.donkey.system.dao.IUserDao">
+
+	<sql id="criteriaSet">
+		<if test="username != null">`username` = #{username}, </if>
+		<if test="name != null">`name` = #{name}, </if>
+		<if test="password != null">`password` = #{password}, </if>
+		<if test="deptId != null">`dept_id` = #{deptId}, </if>
+		<if test="email != null">`email` = #{email}, </if>
+		<if test="mobile != null">`mobile` = #{mobile}, </if>
+		<if test="status != null">`status` = #{status}, </if>
+		<if test="userIdCreate != null">`user_id_create` = #{userIdCreate}, </if>
+		<if test="gmtCreate != null">`gmt_create` = #{gmtCreate}, </if>
+		<if test="gmtModified != null">`gmt_modified` = #{gmtModified}, </if>
+		<if test="sex != null">`sex` = #{sex}, </if>
+		<if test="birth != null">`birth` = #{birth}, </if>
+		<if test="picId != null">`pic_id` = #{picId}, </if>
+		<if test="liveAddress != null">`live_address` = #{liveAddress}, </if>
+		<if test="hobby != null">`hobby` = #{hobby}, </if>
+		<if test="province != null">`province` = #{province}, </if>
+		<if test="city != null">`city` = #{city}, </if>
+		<if test="district != null">`district` = #{district}</if>
+	</sql>
+	
+	<select id="list" resultType="com.donkey.system.model.UserDO">
+		select * from sys_user 
+		<where>
+			<if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+			<if test="name != null">and `name` = #{name}</if>
+			<if test="deptId != null">and `dept_id` = #{deptId}</if>
+			<if test="email != null">and `email` = #{email}</if>
+			<if test="mobile != null">and `mobile` = #{mobile}</if>
+			<if test="status != null">and `status` = #{status}</if>
+			<if test="userIdCreate != null">and `user_id_create` = #{userIdCreate}</if>
+			<if test="gmtCreate != null">and `gmt_create` = #{gmtCreate}</if>
+			<if test="gmtModified != null">and `gmt_modified` = #{gmtModified}</if>
+			<if test="sex != null">and `sex` = #{sex}</if>
+			<if test="birth != null">and `birth` = #{birth}</if>
+			<if test="picId != null">and `pic_id` = #{picId}</if>
+			<if test="liveAddress != null">and `live_address` = #{liveAddress}</if>
+			<if test="hobby != null">and `hobby` = #{hobby}</if>
+			<if test="province != null">and `province` = #{province}</if>
+			<if test="city != null">and `city` = #{city}</if>
+			<if test="district != null">and `district` = #{district}</if>
+		</where>
+		<choose>
+			<when test="sort != null sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by user_id desc
+			</otherwise>
+		</choose> 
+		<if test="limit != null and offset != null">
+			limit #{offset},#{limit}
+		</if>
+	</select>
+	
+	<select id="count">
+		select count(*) from sys_user 
+		<where>
+			<if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+			<if test="name != null">and `name` = #{name}</if>
+			<if test="deptId != null">and `dept_id` = #{deptId}</if>
+			<if test="email != null">and `email` = #{email}</if>
+			<if test="mobile != null">and `mobile` = #{mobile}</if>
+			<if test="status != null">and `status` = #{status}</if>
+			<if test="userIdCreate != null">and `user_id_create` = #{userIdCreate}</if>
+			<if test="gmtCreate != null">and `gmt_create` = #{gmtCreate}</if>
+			<if test="gmtModified != null">and `gmt_modified` = #{gmtModified}</if>
+			<if test="sex != null">and `sex` = #{sex}</if>
+			<if test="birth != null">and `birth` = #{birth}</if>
+			<if test="picId != null">and `pic_id` = #{picId}</if>
+			<if test="liveAddress != null">and `live_address` = #{liveAddress}</if>
+			<if test="hobby != null">and `hobby` = #{hobby}</if>
+			<if test="province != null">and `province` = #{province}</if>
+			<if test="city != null">and `city` = #{city}</if>
+			<if test="district != null">and `district` = #{district}</if>
+		</where>
+	</select>
 	
 	<update id="update" parameterType="com.donkey.system.model.UserDO">
 		update sys_user 
 		<set>
-			<if test="username != null">`username` = #{username}, </if>
-			<if test="name != null">`name` = #{name}, </if>
-			<if test="password != null">`password` = #{password}, </if>
-			<if test="deptId != null">`dept_id` = #{deptId}, </if>
-			<if test="email != null">`email` = #{email}, </if>
-			<if test="mobile != null">`mobile` = #{mobile}, </if>
-			<if test="status != null">`status` = #{status}, </if>
-			<if test="userIdCreate != null">`user_id_create` = #{userIdCreate}, </if>
-			<if test="gmtCreate != null">`gmt_create` = #{gmtCreate}, </if>
-			<if test="gmtModified != null">`gmt_modified` = #{gmtModified}, </if>
-			<if test="sex != null">`sex` = #{sex}, </if>
-			<if test="birth != null">`birth` = #{birth}, </if>
-			<if test="picId != null">`pic_id` = #{picId}, </if>
-			<if test="liveAddress != null">`live_address` = #{liveAddress}, </if>
-			<if test="hobby != null">`hobby` = #{hobby}, </if>
-			<if test="province != null">`province` = #{province}, </if>
-			<if test="city != null">`city` = #{city}, </if>
-			<if test="district != null">`district` = #{district}</if>
+			<include refid="criteriaSet"></include>
 		</set>
 		where
 			user_id = #{userId}

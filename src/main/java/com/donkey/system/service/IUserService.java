@@ -1,9 +1,13 @@
 package com.donkey.system.service;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
+
+import com.donkey.common.utils.Query;
+import com.donkey.system.model.UserDO;
 
 public interface IUserService {
     
@@ -17,4 +21,9 @@ public interface IUserService {
 	 * @throws IOException 
 	 */
 	Map<String,Object> updatePersonImg(MultipartFile file, String clipData, Long userId) throws IOException;
+	
+	List<UserDO> list(Query query);
+	
+	int count(Query query);
+	
 }
